@@ -3,7 +3,6 @@ describe('Basic Requirements', function() {
 	describe("Array.push()", function() {
 		it("is defined", function() {
 			expect(Array.prototype.push).toBeDefined();
-			
 		});
 	});
 
@@ -14,33 +13,33 @@ describe('Basic Requirements', function() {
 	});
 
 	describe("document.getElementById", function() {
-	  it("is defined", function() {
-	    expect(document.getElementById).toBeDefined();
-	  });
+		it("is defined", function() {
+			expect(document.getElementById).toBeDefined();
+		});
 	});
 
 	describe("document.getElementsByTagName", function() {
-	  it("is defined", function() {
-	    expect(document.getElementsByTagName).toBeDefined();
-	  });
+		it("is defined", function() {
+			expect(document.getElementsByTagName).toBeDefined();
+		});
 	});
 
 	describe("RegExp", function() {
-	  it("is defined", function() {
-	    expect(RegExp).toBeDefined();
-	  });
+		it("is defined", function() {
+			expect(RegExp).toBeDefined();
+		});
 	});
 
 	describe("jQuery", function() {
-	  it("is defined", function() {
-	    expect(jQuery).toBeDefined();
-	  });
+		it("is defined", function() {
+			expect(jQuery).toBeDefined();
+		});
 	});
 
 	describe("$", function() {
-	  it("is defined", function() {
-	    expect($).toBeDefined();
-	  });
+		it("is defined", function() {
+			expect($).toBeDefined();
+		});
 	});
 				
 });
