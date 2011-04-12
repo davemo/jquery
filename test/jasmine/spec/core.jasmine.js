@@ -36,7 +36,7 @@ describe('Basic Requirements', function() {
     });
   });
 
-  xdescribe("$", function() {
+  describe("$", function() {
     it("is defined", function() {
       expect($).toBeDefined();
     });
