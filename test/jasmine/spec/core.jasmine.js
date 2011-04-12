@@ -44,8 +44,10 @@ describe('Basic Requirements', function() {
         
 });
 
-describe("jQuery()", function() {
-  describe("constructor behavior", function() {
+describe("jQuery() constructor", function() {
+  
+  describe("default length", function() {
+    
     it("has a default length of 0 when no arguments are passed", function() {
       expect(jQuery().length).toBe(0);
     });
@@ -75,11 +77,13 @@ describe("jQuery()", function() {
       expect(jQuery(window).length).toBe(1);
     });
     
-    describe("the context argument", function() {
-      
-      
-      
-    });
+  });
+    
+  describe("the context argument", function() {
+    
+    
+    
+    
   });
 });
 
