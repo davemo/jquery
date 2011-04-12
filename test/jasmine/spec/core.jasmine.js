@@ -40,7 +40,7 @@ describe('Basic Requirements', function() {
   describe("$", function() {
     // this is defined in test-init.js
     // TODO: discover intent in having the namespace defined in the test-init file.
-    // this seems spurious
+    // this seems spurious given the definition in the test fixture
     it("is defined", function() {
       expect($).toBeDefined();
     });
@@ -114,7 +114,6 @@ describe("constructor, jQuery()", function() {
 
     });
 
-    // some duplication here...
     describe("generating the <img> element", function() {
       var img;
       
@@ -220,4 +219,5 @@ describe("constructor, jQuery()", function() {
     });
         
   });
+  
 });
