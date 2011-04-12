@@ -72,7 +72,7 @@ describe("constructor, jQuery()", function() {
       expect(jQuery("#")).toHaveLength(0);
     });
     
-    it("does not re-wrap a jQuery object", function() {
+    it("does not re-wrap a jQuery object, jQuery(jQueryObject)", function() {
       var obj = jQuery("div");
       expect(jQuery(obj).selector).toBe("div");
     });
