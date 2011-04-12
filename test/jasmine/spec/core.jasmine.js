@@ -86,11 +86,14 @@ describe("constructor, jQuery()", function() {
   describe("the context argument, jQuery(selector, context)", function() {
     
     // q is a utility function defined in test-init.js
-    // TODO: perhaps it might be clearer if these utility functions were namespaced somewhere better?
+    // TODO: it would be clearer if these utility functions were namespaced somewhere better.
+    
+    // the elements referenced here are also based on fixtures that pre-exist in the markup, not sure if
+    // it would be more valuable to inline them for readability.
     
     it("should return the same set of results as an array of elements gathered with document.getElementById", function() {
       var main = jQuery("#main");
-      expect(jQuery("div p", main).get()).toEqual(q("sndp", "en", "sap"));
+      expect(jQuery("div p", main).get()).toEqual(q("sndp", "en", "sap")); // magic ids and function names
     });
     
   });
