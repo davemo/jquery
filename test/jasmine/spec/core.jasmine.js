@@ -93,7 +93,7 @@ describe("constructor, jQuery()", function() {
     
     it("should return the same set of results as an array of elements gathered with document.getElementById", function() {
       var main = jQuery("#main");
-      expect(jQuery("div p", main).get()).toEqual(q("sndp", "en", "sap")); // magic ids and function names
+      expect(jQuery("div p", main).get()).toEqual(q("sndp", "en", "sap")); // magic ids and function names are hard to read
     });
     
   });
@@ -170,6 +170,7 @@ describe("constructor, jQuery()", function() {
     var elem, domNode;
     
     beforeEach(function() {
+      spyOn(window, 'alert');
       elem = jQuery("<div/>", {
         width: 10,
         css: { paddingLeft:1, paddingRight:1 },
@@ -178,8 +179,6 @@ describe("constructor, jQuery()", function() {
         "class": "test2",
         id: "test3"
       });
-      
-      spyOn(window, 'alert');
       domNode = elem[0];
     });
     
@@ -210,7 +209,10 @@ describe("constructor, jQuery()", function() {
     
     it("should properly bind click", function() {
       var result = elem.click();
-      expect(window.alert).toHaveBeenCalledWith('clicked');
+      expect(window.alert).toHaveBeenCalledWith('clicked'); 
+      // I believe this achieves the same goal as the code in core.js, 
+      // intent is to verify click binding worked from 
+      // jQuery(markup, { click: function() {} });
     });
     
     it("clones cached nodes properly (Bug #6655)", function() {
