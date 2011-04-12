@@ -165,65 +165,59 @@ describe("constructor, jQuery()", function() {
   });
   
   describe("html generation with options, jQuery(markup, options)", function() {
-    var exec, elem;
+    var elem, domNode;
     
     beforeEach(function() {
-      elem = jQuery("<div/>", { // candidate for injection here
+      elem = jQuery("<div/>", {
         width: 10,
         css: { paddingLeft:1, paddingRight:1 },
-        click: function(){ ok(exec, "Click executed."); }, // spy candidate
+        click: function(){ alert('clicked'); }, // note the change here, hooks into spy later
         text: "test",
         "class": "test2",
         id: "test3"
       });
+      
+      spyOn(window, 'alert');
+      domNode = elem[0];
     });
     
     it("should set the style.width", function() {
-      expect(elem[0].style.width).toBe('10px');
+      expect(domNode.style.width).toBe('10px');
     });
     
     it("should set the style.paddingLeft", function() {
-      expect(elem[0].style.paddingLeft).toBe('1px');
+      expect(domNode.style.paddingLeft).toBe('1px');
     });
     
     it("should set the style.paddingRight", function() {
-      expect(elem[0].style.paddingRight).toBe('1px');
+      expect(domNode.style.paddingRight).toBe('1px');
     });
     
     it("should set the text", function() {
-      expect(elem[0].childNodes).toHaveLength(1);
-      expect(elem[0].firstChild.nodeValue).toBe('test');
+      expect(domNode.childNodes).toHaveLength(1);
+      expect(domNode.firstChild.nodeValue).toBe('test');
     });
     
     it("should set the class", function() {
-      expect(elem[0].className).toBe('test2');
+      expect(domNode.className).toBe('test2');
     });
     
     it("should set the id", function() {
-      expect(elem[0].id).toBe('test3');
+      expect(domNode.id).toBe('test3');
     });
     
-        
+    it("should properly bind click", function() {
+      var result = elem.click();
+      expect(window.alert).toHaveBeenCalledWith('clicked');
+    });
     
+    it("clones cached nodes properly (Bug #6655)", function() {
+      elem.remove();
+      for(var i = 0; i < 3; i++) {
+        elem = jQuery('<input type="text" value="TEST" />');
+      }
+      expect(elem[0].defaultValue).toBe('TEST');
+    });
+        
   });
-  
-  
 });
-
-
-//	var exec = false;
-//
-//	exec = true;
-//	elem.click();
-//
-//	// manually clean up detached elements
-//	elem.remove();
-//
-//	for ( var i = 0; i < 3; ++i ) {
-//		elem = jQuery("<input type='text' value='TEST' />");
-//	}
-//	equals( elem[0].defaultValue, "TEST", "Ensure cached nodes are cloned properly (Bug #6655)" );
-//
-//	// manually clean up detached elements
-//	elem.remove();
-//});
