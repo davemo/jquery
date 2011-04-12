@@ -1,4 +1,5 @@
 describe('Basic Requirements', function() {
+  // Basic sanity tests
     
   describe("Array.push()", function() {
     it("is defined", function() {
@@ -39,6 +40,7 @@ describe('Basic Requirements', function() {
   describe("$", function() {
     // this is defined in test-init.js
     // TODO: discover intent in having the namespace defined in the test-init file.
+    // this seems spurious
     it("is defined", function() {
       expect($).toBeDefined();
     });
@@ -46,7 +48,7 @@ describe('Basic Requirements', function() {
         
 });
 
-describe("jQuery() constructor", function() {
+describe("constructor, jQuery()", function() {
   
   describe("default length", function() {
     
@@ -81,65 +83,135 @@ describe("jQuery() constructor", function() {
     
   });
     
-  describe("the context argument", function() {
+  describe("the context argument, jQuery(selector, context)", function() {
     
     // q is a utility function defined in test-init.js
-    // TODO: perhaps it might be clearer if these functions were namespaced somewhere better?
+    // TODO: perhaps it might be clearer if these utility functions were namespaced somewhere better?
     
-    it("should return the same set of results as document.getElementById", function() {
+    it("should return the same set of results as an array of elements gathered with document.getElementById", function() {
       var main = jQuery("#main");
       expect(jQuery("div p", main).get()).toEqual(q("sndp", "en", "sap"));
     });
     
   });
   
-  describe("generating the <code> element", function() {
-    var code;
+  describe("generating HTML elements, jQuery(markup)", function() {
     
-    beforeEach(function() {
-      code = jQuery("<code/>");
+    describe("generating the <code> element", function() {
+      var code;
+
+      beforeEach(function() {
+        code = jQuery("<code/>");
+      });
+
+      it("generates the correct number of elements", function() {
+        expect(code).toHaveLength(1);
+      });
+
+      it("does not generate a parent", function() {
+        expect(code.parent()).toHaveLength(0);
+      });
+
+    });
+
+    // some duplication here...
+    describe("generating the <img> element", function() {
+      var img;
+      
+      beforeEach(function() {
+        img = jQuery("<img/>");
+      });
+      
+      it("generates the correct number of elements", function() {
+        expect(img).toHaveLength(1);
+      });
+      
+      it("does not generate a parent", function() {
+        expect(img.parent()).toHaveLength(0);
+      });
     });
     
+    describe("generating multiple elements", function() {
+      var multiple;
+      
+      beforeEach(function() {
+        multiple = jQuery("<div/><hr/><code/><b/>");
+      });
+      
+      it("generates the correct number of elements", function() {
+        expect(multiple).toHaveLength(4);
+      });
+      
+      it("does not generate a parent", function() {
+        expect(multiple.parent()).toHaveLength(0);
+      });
+    });    
+  });
+  
+  describe("array arguments, jQuery(array)", function() {
     
-    it("generates the correct number of elements", function() {
-      expect(code).toHaveLength(1);
+    it("extracts the right value from the array", function() {
+      expect(jQuery([1,2,3]).get(1)).toBe(2);
     });
     
   });
+  
+  describe("an html node argument, jQuery(DOMNode)", function() {
+    
+    it("should be the same as a query for the string representation of the node", function() {
+      expect(jQuery(document.body).get(0)).toEqual(jQuery('body').get(0));
+    });
+    
+  });
+  
+  describe("html generation with options, jQuery(markup, options)", function() {
+    var exec, elem;
+    
+    beforeEach(function() {
+      elem = jQuery("<div/>", { // candidate for injection here
+        width: 10,
+        css: { paddingLeft:1, paddingRight:1 },
+        click: function(){ ok(exec, "Click executed."); }, // spy candidate
+        text: "test",
+        "class": "test2",
+        id: "test3"
+      });
+    });
+    
+    it("should set the style.width", function() {
+      expect(elem[0].style.width).toBe('10px');
+    });
+    
+    it("should set the style.paddingLeft", function() {
+      expect(elem[0].style.paddingLeft).toBe('1px');
+    });
+    
+    it("should set the style.paddingRight", function() {
+      expect(elem[0].style.paddingRight).toBe('1px');
+    });
+    
+    it("should set the text", function() {
+      expect(elem[0].childNodes).toHaveLength(1);
+      expect(elem[0].firstChild.nodeValue).toBe('test');
+    });
+    
+    it("should set the class", function() {
+      expect(elem[0].className).toBe('test2');
+    });
+    
+    it("should set the id", function() {
+      expect(elem[0].id).toBe('test3');
+    });
+    
+        
+    
+  });
+  
+  
 });
 
-//	var code = jQuery("<code/>");
-//	equals( code.length, 1, "Correct number of elements generated for code" );
-//	equals( code.parent().length, 0, "Make sure that the generated HTML has no parent." );
-//	var img = jQuery("<img/>");
-//	equals( img.length, 1, "Correct number of elements generated for img" );
-//	equals( img.parent().length, 0, "Make sure that the generated HTML has no parent." );
-//	var div = jQuery("<div/><hr/><code/><b/>");
-//	equals( div.length, 4, "Correct number of elements generated for div hr code b" );
-//	equals( div.parent().length, 0, "Make sure that the generated HTML has no parent." );
-//
-//	equals( jQuery([1,2,3]).get(1), 2, "Test passing an array to the factory" );
-//
-//	equals( jQuery(document.body).get(0), jQuery('body').get(0), "Test passing an html node to the factory" );
-//
+
 //	var exec = false;
-//
-//	var elem = jQuery("<div/>", {
-//		width: 10,
-//		css: { paddingLeft:1, paddingRight:1 },
-//		click: function(){ ok(exec, "Click executed."); },
-//		text: "test",
-//		"class": "test2",
-//		id: "test3"
-//	});
-//
-//	equals( elem[0].style.width, '10px', 'jQuery() quick setter width');
-//	equals( elem[0].style.paddingLeft, '1px', 'jQuery quick setter css');
-//	equals( elem[0].style.paddingRight, '1px', 'jQuery quick setter css');
-//	equals( elem[0].childNodes.length, 1, 'jQuery quick setter text');
-//	equals( elem[0].firstChild.nodeValue, "test", 'jQuery quick setter text');
-//	equals( elem[0].className, "test2", 'jQuery() quick setter class');
-//	equals( elem[0].id, "test3", 'jQuery() quick setter id');
 //
 //	exec = true;
 //	elem.click();
