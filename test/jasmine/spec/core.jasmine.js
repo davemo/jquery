@@ -81,7 +81,9 @@ describe("jQuery() constructor", function() {
     
   describe("the context argument", function() {
     
-    
+    beforeEach(function() {
+      
+    });
     
     
   });
