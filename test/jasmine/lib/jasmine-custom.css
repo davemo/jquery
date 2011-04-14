@@ -1,0 +1,21 @@
+html {
+  background-color: #444444;
+}
+
+.logo a {
+  text-indent: -9999px;
+  background: url(http://pivotal.github.com/jasmine/images/jasmine_logo.png) top left no-repeat;
+  display: block;
+  width: 282px;
+  height: 87px;
+}
+
+.logo .version {
+  position: relative;
+  top: -16px;
+  left: 123px;
+}
+
+.banner {
+  overflow: hidden;
+}

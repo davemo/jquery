@@ -208,7 +208,7 @@ describe("constructor, jQuery()", function() {
     });
     
     it("should properly bind click", function() {
-      var result = elem.click();
+      elem.click();
       expect(window.alert).toHaveBeenCalledWith('clicked'); 
       // I believe this achieves the same goal as the code in core.js, 
       // intent is to verify click binding worked from 
@@ -225,4 +225,242 @@ describe("constructor, jQuery()", function() {
         
   });
   
+});
+
+describe("Selector State", function() {
+  var test;
+  
+  describe("jQuery(selector)", function() {
+      
+    describe("jQuery(undefined)", function() {
+      beforeEach(function() {
+        test = jQuery(undefined)
+      });
+    
+      it("has an empty selector", function() {
+        expect(test.selector).toBe("");
+      });
+    
+      it("has an undefined context", function() {
+        expect(test.context).toBe(undefined);
+      });
+    });
+  
+    describe("jQuery(document)", function() {
+      beforeEach(function() {
+        test = jQuery(document);
+      });
+    
+      it("has an empty selector", function() {
+        expect(test.selector).toBe("");
+      });
+    
+      it("has a context of document", function() {
+        expect(test.context).toBe(document);
+      });
+    });
+  
+    describe("jQuery(document.body)", function() {
+      beforeEach(function() {
+        test = jQuery(document.body);
+      });
+    
+      it("has an empty selector", function() {
+        expect(test.selector).toBe("");
+      });
+    
+      it("has a context of document.body", function() {
+        expect(test.context).toBe(document.body);
+      });
+    });
+  
+    describe("jQuery(#main)", function() {
+      beforeEach(function() {
+        test = jQuery("#main");
+      });
+    
+      it("has a selector of #main", function() {
+        expect(test.selector).toBe("#main");
+      });
+    
+      it("has a context of document", function() {
+        expect(test.context).toBe(document);
+      });
+    });
+  
+    describe("jQuery('#notfoundnono')", function() {
+      beforeEach(function() {
+        test = jQuery("#notfoundnono");
+      });
+    
+      it("has a selector of #notfoundnono", function() {
+        expect(test.selector).toBe("#notfoundnono");
+      });
+    
+      it("has a context of document", function() {
+        expect(test.context).toBe(document);
+      });
+    });
+  
+  });
+  
+  describe("jQuery(selector, context)", function() {    
+  
+    describe("jQuery('#main', document)", function() {
+      beforeEach(function() {
+        test = jQuery("#main", document);
+      });
+    
+      it("has a selector of #main", function() {
+        expect(test.selector).toBe("#main");
+      });
+    
+      it("has a context of document", function() {
+        expect(test.context).toBe(document);
+      });
+    });
+  
+    describe("jQuery('#main', document.body)", function() {
+      beforeEach(function() {
+        test = jQuery("#main", document.body);
+      });
+      
+      it("has a selector of #main", function() {
+        expect(test.selector).toBe("#main");
+      });
+      
+      it("has a context of document.body", function() {
+        expect(test.context).toBe(document.body);
+      });
+    });
+
+  });
+  
+  describe("Cloning", function() {
+    
+    describe("jQuery(jQuery('#main', document.body))", function() {
+      beforeEach(function() {
+        test = jQuery(jQuery("#main", document.body));
+      });
+
+      it("has a selector of #main", function() {
+        expect(test.selector).toBe("#main");
+      });
+      
+      it("has a context of document.body", function() {
+        expect(test.context).toBe(document.body);
+      });
+    });
+    
+  });
+  
+  describe("jQuery(document.body).find('#main')", function() {
+    beforeEach(function() {
+      test = jQuery(document.body).find("#main");
+    });
+    
+    it("has a selector of #main", function() {
+      expect(test.selector).toBe("#main");
+    });
+    
+    it("has a context of document.body", function() {
+      expect(test.context).toBe(document.body);
+    });
+  });
+  
+  describe("jQuery('#main').filter('div')", function() {
+    beforeEach(function() {
+      test = jQuery("#main").filter("div");
+    });
+    
+    it("has a selector of #main.filter(div)", function() {
+      expect(test.selector).toBe("#main.filter(div)");
+    });
+    
+    it("has a context of document", function() {
+      expect(test.context).toBe(document);
+    });
+  });
+  
+  describe("jQuery('#main').not('div')", function() {
+    beforeEach(function() {
+      test = jQuery("#main").not('div');
+    });
+    
+    it("has a selector of #main.not(div)", function() {
+      expect(test.selector).toBe("#main.not(div)");
+    });
+    
+    it("has a context of document.body", function() {
+      expect(test.context).toBe(document);
+    });
+  });
+
+  describe('jQuery("#main").filter("div").not("div")', function() {
+    beforeEach(function() {
+      test = jQuery("#main").filter("div").not("div");
+    });
+    
+    it("has a selector of #main.filter(div).not(div)", function() {
+      expect(test.selector).toBe("#main.filter(div).not(div)");
+    });
+    
+    it("has a context of document.body", function() {
+      expect(test.context).toBe(document);
+    });
+  });
+  
+  describe('jQuery("#main").filter("div").not("div").end()', function() {
+    beforeEach(function() {
+      test = jQuery("#main").filter("div").not("div").end();
+    });
+    
+    it("has a selector of #main.filter(div)", function() {
+      expect(test.selector).toBe("#main.filter(div)");
+    });
+    
+    it("has a context of document", function() {
+      expect(test.context).toBe(document);
+    });
+  });
+  
+  describe('jQuery("#main").parent("body")', function() {
+    beforeEach(function() {
+      test = jQuery("#main").parent("body");
+    });
+    
+    it("has a selector of #main.parent(body)", function() {
+      expect(test.selector).toBe("#main.parent(body)");
+    });
+    
+    it("has a context of document", function() {
+      expect(test.context).toBe(document);
+    });
+  });
+  
+  describe('jQuery("#main").eq(0)', function() {
+    beforeEach(function() {
+      test = jQuery("#main").eq(0);
+    });
+    
+    it("has a selector of #main.slice(0,1)", function() {
+      expect(test.selector).toBe("#main.slice(0,1)");
+    });
+  });
+  
+  describe("manipulation methods make same selector for jQuery objects", function() {
+    var selectorOne, selectorTwo;
+    
+    beforeEach(function() {
+      test = "<div />";
+      selectorOne = jQuery(test).appendTo(jQuery(test)).selector;
+      selectorTwo = jQuery(test).appendTo(test).selector;
+    });
+    
+    it("makes the selectors equal", function() {
+      expect(selectorOne).toBe(selectorTwo);
+    });
+    
+  });
+
 });
