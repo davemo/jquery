@@ -464,3 +464,64 @@ describe("Selector State", function() {
   });
 
 });
+
+describe("Global Eval, jQuery.globalEval(code)", function() {
+  // http://weblogs.java.net/blog/driscoll/archive/2009/09/08/eval-javascript-global-context
+  
+  describe("variable declarations are global", function() {
+    beforeEach(function() {
+      jQuery.globalEval("var globalEvalTest = true;");
+    });
+    
+    it("correctly defines window.globalEvalTest", function() {
+      expect(window.globalEvalTest).toBeTruthy();
+    });
+  });
+  
+  describe("variable assignments are global", function() {
+    beforeEach(function() {
+      window.globalEvalTest = false;
+      jQuery.globalEval("var globalEvalTest = true;");
+    });
+    
+    it("correctly assigns window.globalEvalTest", function() {
+      expect(window.globalEvalTest).toBeTruthy();
+    });
+  });
+  
+  describe("context (this) object is assigned correctly", function() {
+    beforeEach(function() {
+      window.globalEvalTest = false;
+      jQuery.globalEval( "globalEvalTest = true;" );
+    });
+    
+    it("sets context (this) to the window object", function() {
+      expect(window.globalEvalTest).toBeTruthy();
+    });
+  });
+	
+});
+
+
+
+if ( !isLocal ) {
+test("browser", function() {
+	stop();
+
+	jQuery.get("data/ua.txt", function(data){
+		var uas = data.split("\n");
+		expect( (uas.length - 1) * 2 );
+
+		jQuery.each(uas, function(){
+			var parts = this.split("\t");
+			if ( parts[2] ) {
+				var ua = jQuery.uaMatch( parts[2] );
+				equals( ua.browser, parts[0], "Checking browser for " + parts[2] );
+				equals( ua.version, parts[1], "Checking version string for " + parts[2] );
+			}
+		});
+
+		start();
+	});
+});
+}
